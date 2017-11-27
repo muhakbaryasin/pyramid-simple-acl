@@ -1,0 +1,3 @@
+[run]
+source = pyramid_simple_acl
+omit = pyramid_simple_acl/test*
