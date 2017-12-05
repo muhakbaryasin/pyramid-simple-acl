@@ -10,26 +10,29 @@
 </form>
 <br/>
 {% if content is iterable %}
-<table>
-    <tr>
-        <td>CustID</td>
-        <td>Room</td>
-        <td>Lname</td>
-        <td>Fname</td>
-        <td>Profile</td>
-    </tr>
+<div>
+    <div style="border: solid 1px black; width: 100%; height: 23px;">
+        <div style="width: 20%; height: 23px; float: left;"><span>CustID</span></div>
+        <div style="width: 20%; height: 23px; float: left;"><span>Room</span></div>
+        <div style="width: 20%; height: 23px; float: left;"><span>Lname</span></div>
+        <div style="width: 20%; height: 23px; float: left;"><span>Fname</span></div>
+        <div style="width: 20%; height: 23px; float: left;"><span>Profile</span></div>
+    </div>
     
     {% for item in content %}
-    <tr>    
-        <td>{{item.cust_id}}</td>
-        <td>{{item.room_number}}</td>
-        <td>{{item.cust.cust_first_name}}</td>
-        <td>{{item.cust.cust_last_name}}</td>
-        <td>{{item.cust.cust_profile}}</td>
-    </tr>
+    <div style="border-bottom: dashed 1px black; width: 100%; height: 23px; margin-top: 3px;">
+        <div style="width: 20%; height: 23px; float: left;"><span>{{item.cust_id}}</span></div>
+        <div style="width: 20%; height: 23px; float: left;"><span>{{item.room_number}}</span></div>
+        <div style="width: 20%; height: 23px; float: left;"><span>{{item.cust.cust_last_name}}</span></div>
+        <div style="width: 20%; height: 23px; float: left;"><span>{{item.cust.cust_first_name}}</span></div>
+        <div style="width: 20%; height: 23px; float: left;"><span>{{item.cust.cust_profile}}</span></div>        
+    </div>
+    
     {% endfor %}
     
-</table>
+</div>
+<br />
+<hr />
 {% endif %}
     
 </div>
