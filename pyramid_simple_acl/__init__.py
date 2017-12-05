@@ -9,9 +9,8 @@ def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
     #config = Configurator(settings=settings)
-    
     # ACL
-    config = Configurator(settings=settings, root_factory=Root)
+    config = Configurator(settings=settings, root_factory='pyramid_simple_acl.security.Root')
     authn_policy = AuthTktAuthenticationPolicy('sosecret', callback=groupfinder, hashalg='sha512')
     authz_policy = ACLAuthorizationPolicy()
     config.set_authentication_policy(authn_policy)
