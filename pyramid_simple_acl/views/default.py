@@ -15,17 +15,21 @@ log = logging.getLogger(__name__)
 
 @view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
 def my_view(request):
-    try:
-        pass
-    except DBAPIError:
-        return Response(db_err_msg, content_type='text/plain', status=500)
-    return {'one': 'one', 'project': 'pyramid-simple-acl'}
+    return {'one': 'one', 'project': 'pyramid-simple-acl'}    
+
+@view_config(route_name='logout', renderer='../templates/logout.jinja2')
+def logout(request):
+        headers = forget(request)
+        request.response.headerlist.extend(headers)
+        next_url = request.route_url('login')
+            
+        return HTTPFound(location=next_url)
 
 @view_config(route_name='login', renderer='../templates/login.jinja2')
 def login(request):
     try:
         if not ('user_name' in request.params and 'password' in request.params):
-            return {}
+            raise Exception('Missing params')
         
         if request.params['user_name'] == '' or request.params['password'] == '':
             raise Exception('Ada inputan yang kosong dari form')
@@ -44,19 +48,11 @@ def login(request):
         log.exception(str(e))
         return {'code' : 'error', 'message' : str(e) }
     
-@view_config(route_name='logout', renderer='../templates/logout.jinja2')
-def logout(request):
-        headers = forget(request)
-        request.response.headerlist.extend(headers)
-        next_url = request.route_url('login')
-            
-        return HTTPFound(location=next_url)
-
 @view_config(route_name='search-room', renderer='../templates/search-room.jinja2', permission='edit')
 def search_room(request):
     try:
         if not ('floor' in request.params):
-            return {}
+            raise Exception('Missing params')
         
         if request.params['floor'] == '':
             raise Exception('Ada inputan yang kosong dari form')
@@ -72,19 +68,3 @@ def search_room(request):
     except Exception as e:
         log.exception(str(e))
         return {'code' : 'error', 'message' : str(e), 'content' : ''}
-
-db_err_msg = """\
-Pyramid is having a problem using your SQL database.  The problem
-might be caused by one of the following things:
-
-1.  You may need to run the "initialize_pyramid-simple-acl_db" script
-    to initialize your database tables.  Check your virtual
-    environment's "bin" directory for this script and try to run it.
-
-2.  Your database server may not be running.  Check that the
-    database server referred to by the "sqlalchemy.url" setting in
-    your "development.ini" file is running.
-
-After you fix the problem, please restart the Pyramid application to
-try it again.
-"""
