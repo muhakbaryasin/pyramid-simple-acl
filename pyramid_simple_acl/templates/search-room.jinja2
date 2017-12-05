@@ -1,0 +1,36 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<div class="content">
+<h2><span class="smaller">Search room</span></h2>
+<h3>{{ message }}</h3>
+<form method="POST">
+    <input type="number" name="floor" />
+    <input type="submit" />
+</form>
+<br/>
+{% if content is iterable %}
+<table cellspacing="3" cellpadding="3" border="1">
+    <tr>
+        <td>CustID</td>
+        <td>Room</td>
+        <td>Fname</td>
+        <td>Lname</td>
+        <td>Profile</td>
+    </tr>
+    
+    {% for item in content %}
+    <tr>    
+        <td>{{item.cust_id}}</td>
+        <td>{{item.room_number}}</td>
+        <td>{{item.cust.cust_first_name}}</td>
+        <td>{{item.cust.cust_last_name}}</td>
+        <td>{{item.cust.cust_profile}}</td>
+    </tr>
+    {% endfor %}
+    
+</table>
+{% endif %}
+    
+</div>
+{% endblock content %}
